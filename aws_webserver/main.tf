@@ -12,18 +12,18 @@ provider "aws" {
 }
 
 resource "aws_key_pair" "webserver-kp" {
-  key_name   = "{var.name}-kp"
+  key_name   = "${var.name}-kp"
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
 resource "aws_security_group" "webserver-sg" {
-  name = "{var.name}-sg"
+  name = "${var.name}-sg"
 }
 
 resource "aws_instance" "webserver" {
   ami           = var.ami
   instance_type = var.instance_type
-  key_name = "{var.name}-kp"
+  key_name = "${var.name}-kp"
 
   tags = {
     Name = var.name
