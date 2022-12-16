@@ -1,3 +1,10 @@
+
+terraform {
+  backend "local" {
+    path = "/etc/.aws/terraform.tfstate"
+  }
+}
+
 provider "aws" {
   region = var.region
   shared_credentials_files = ["/etc/.aws/credentials"]
