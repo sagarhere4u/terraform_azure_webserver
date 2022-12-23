@@ -10,13 +10,6 @@ data "template_file" "sub_id" {
   template = file("/etc/.azure/sub_id")
 }
 
-resource "aws_key_pair" "webserver-kp" {
-  key_name   = "${trimspace(data.template_file.prefix.rendered)}-${var.name}-kp"
-  public_key = file("~/.ssh/id_rsa.pub")
-}
-
-
-
 provider "azurerm" {
   features {}
   client_certificate_path = "/etc/.azure/mycert.pfx"
