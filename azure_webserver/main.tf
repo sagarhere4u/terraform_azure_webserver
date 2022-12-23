@@ -1,9 +1,9 @@
 provider "azurerm" {
   features {}
   client_certificate_path = "/etc/.azure/mycert.pfx"
-  subscription_id = "{var.ARM_SUBSCRIPTION_ID}"
-  client_id = "{var.ARM_CLIENT_ID}"
-  tenant_id = "{var.ARM_TENANT_ID}"
+  subscription_id = "${var.ARM_SUBSCRIPTION_ID}"
+  client_id = "${var.ARM_CLIENT_ID}"
+  tenant_id = "${var.ARM_TENANT_ID}"
 }
 
 resource "azurerm_resource_group" "main" {
