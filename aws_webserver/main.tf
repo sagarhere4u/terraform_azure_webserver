@@ -27,13 +27,12 @@ resource "aws_security_group" "webserver-sg" {
 resource "aws_instance" "webserver" {
   ami           = var.ami
   instance_type = var.instance_type
-  key_name = "${trimspace(data.template_file.prefix.rendered)}-${var.name}-kp"
-
+  key_name = aws_key_pair.webserver-kp.key_name
   tags = {
     Name = "${trimspace(data.template_file.prefix.rendered)}-${var.name}"
   }
 
-  vpc_security_group_ids = ["${aws_security_group.${trimspace(data.template_file.prefix.rendered)}-${var.name}-sg.id}"]
+  vpc_security_group_ids = [aws_security_group.webserver-sg.id]
   user_data = file("web.sh")
 }
 
@@ -42,7 +41,7 @@ resource "aws_security_group_rule" "allow_all_outbound" {
   from_port         = 0
   to_port           = 0
   protocol          = "-1"
-  security_group_id = "${aws_security_group.${trimspace(data.template_file.prefix.rendered)}-${var.name}-sg.id}"
+  security_group_id = aws_security_group.webserver-sg.id
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -51,7 +50,7 @@ resource "aws_security_group_rule" "allow_ssh_inbound" {
   from_port         = "22"
   to_port           = "22"
   protocol          = "TCP"
-  security_group_id = "${aws_security_group.${trimspace(data.template_file.prefix.rendered)}-${var.name}-sg.id}"
+  security_group_id = aws_security_group.webserver-sg.id
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -60,6 +59,6 @@ resource "aws_security_group_rule" "allow_http_inbound" {
   from_port         = "80"
   to_port           = "80"
   protocol          = "TCP"
-  security_group_id = "${aws_security_group.${trimspace(data.template_file.prefix.rendered)}-${var.name}-sg.id}"
+  security_group_id = aws_security_group.webserver-sg.id
   cidr_blocks       = ["0.0.0.0/0"]
 }
