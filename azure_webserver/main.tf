@@ -1,9 +1,28 @@
+data "template_file" "client_id" {
+  template = file("/etc/.azure/client_id")
+}
+
+data "template_file" "tenant_id" {
+  template = file("/etc/.azure/tenant_id")
+}
+
+data "template_file" "sub_id" {
+  template = file("/etc/.azure/sub_id")
+}
+
+resource "aws_key_pair" "webserver-kp" {
+  key_name   = "${trimspace(data.template_file.prefix.rendered)}-${var.name}-kp"
+  public_key = file("~/.ssh/id_rsa.pub")
+}
+
+
+
 provider "azurerm" {
   features {}
   client_certificate_path = "/etc/.azure/mycert.pfx"
-  subscription_id = "${var.ARM_SUBSCRIPTION_ID}"
-  client_id = "${var.ARM_CLIENT_ID}"
-  tenant_id = "${var.ARM_TENANT_ID}"
+  subscription_id = "${trimspace(data.template_file.sub_id.rendered)}"
+  client_id = "${trimspace(data.template_file.client_id.rendered)}"
+  tenant_id = "${trimspace(data.template_file.tenant_id.rendered)}"
 }
 
 resource "azurerm_resource_group" "main" {
