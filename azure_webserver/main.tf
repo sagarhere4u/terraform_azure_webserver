@@ -1,3 +1,9 @@
+terraform {
+  backend "local" {
+    path = "/etc/.azure/terraform.tfstate"
+  }
+}
+
 data "template_file" "client_id" {
   template = file("/etc/.azure/client_id")
 }
