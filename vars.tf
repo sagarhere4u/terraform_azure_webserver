@@ -7,3 +7,12 @@ variable "location" {
   description = "The Azure Region in which all resources in this example should be created."
   default = "East US"
 }
+
+variable "subscription_id" {
+}
+
+variable "client_id" {
+}
+
+variable "tenant_id" {
+}
