@@ -1,27 +1,9 @@
-terraform {
-  backend "local" {
-    path = "/etc/.azure/terraform.tfstate"
-  }
-}
-
-data "template_file" "client_id" {
-  template = file("/etc/.azure/client_id")
-}
-
-data "template_file" "tenant_id" {
-  template = file("/etc/.azure/tenant_id")
-}
-
-data "template_file" "sub_id" {
-  template = file("/etc/.azure/sub_id")
-}
-
 provider "azurerm" {
   features {}
   client_certificate_path = "/etc/.azure/mycert.pfx"
-  subscription_id = "${trimspace(data.template_file.sub_id.rendered)}"
-  client_id = "${trimspace(data.template_file.client_id.rendered)}"
-  tenant_id = "${trimspace(data.template_file.tenant_id.rendered)}"
+  subscription_id = var.subscription_id
+  client_id = var.client_id
+  tenant_id = var.tenant_id
 }
 
 resource "azurerm_resource_group" "main" {
