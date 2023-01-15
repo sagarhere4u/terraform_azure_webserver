@@ -1,6 +1,6 @@
 provider "azurerm" {
   features {}
-  client_certificate_path = "/etc/.azure/mycert.pfx"
+  client_certificate_path = "mycert.pfx"
   subscription_id = var.subscription_id
   client_id = var.client_id
   tenant_id = var.tenant_id
